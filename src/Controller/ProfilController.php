@@ -11,8 +11,11 @@ class ProfilController extends AbstractController
     #[Route('/profil', name: 'profil')]
     public function index(): Response
     {
-        return $this->render('profil/index.html.twig', [
-            'controller_name' => 'ProfilController',
+        $info = ['lastname' => 'Loper', 'firstname' => 'Dave', 'email' => 'daveloper@code.dom', 'birthdate' => '01/01/1970'];
+
+
+        return $this->render('profil/details.html.twig', [
+            'informations' => $info
         ]);
     }
 }
