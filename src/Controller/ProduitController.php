@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
+use App\Form\NewProduitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,17 +19,17 @@ class ProduitController extends AbstractController
         ]);
     }
 
+    #[Route('/produit/new', name: 'new.produit')]
     public function new(Request $request): Response
 
     {
     $produit = new Produit();
     // création du formulaire
-    $form = $this->createForm(ProductsType::class, $produit);
+    $form = $this->createForm(NewProduitType::class, $produit);
     // lecture du formulaire
-    $form->handleRequest($request);
-    return $this->render('produit/new.html.twig', [
-                'produit' => $produit,
-                'form' => $form->createView(),
+    // $form->handleRequest($request);
+    return $this->renderForm('produit/new.html.twig', [
+        'form' => $form,
             ]);
     }
 }
