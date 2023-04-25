@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Produit;
 use App\Entity\SousRubrique;
+use Doctrine\DBAL\Types\IntegerType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,6 +13,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType as TypeIntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class NewProduitType extends AbstractType
@@ -44,8 +47,20 @@ class NewProduitType extends AbstractType
                     'placeholder' => 'image.jpg',
                 ],
             ])
-            ->add('stock')
-            ->add('active')
+            ->add('stock', TypeIntegerType::class,[
+                'label' => 'Stock du produit',
+                'attr' => [
+                    'placeholder' => 'Stock',
+                ],
+            ])
+            ->add('active', ChoiceType::class,[
+                'choices' => [
+                    'Activation du produit' => [
+                        'Oui' => 'active_yes',
+                        'Non' => 'active_no',
+                    ],
+                ],
+            ])
             //->add('sous_rubrique', EntityType::class, [
             //    'class' => SousRubrique::class,
             //    'choice_label' => 'name',
@@ -56,7 +71,7 @@ class NewProduitType extends AbstractType
                 'class' => SousRubrique::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('sous_rubrique')
-                        ->orderBy('sous_rubrique.name', 'ASC');
+                        ->orderBy('sous_rubrique.rubrique', 'ASC');
                 },
                 'choice_label' => 'name',
                 'multiple' => true,
