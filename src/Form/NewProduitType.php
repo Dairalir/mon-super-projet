@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Produit;
 use App\Entity\SousRubrique;
-use Doctrine\DBAL\Types\IntegerType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType as TypeIntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class NewProduitType extends AbstractType
 {
@@ -27,18 +27,36 @@ class NewProduitType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Produit',
                 ],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[A-Za-zéèàçâêûîôäëüïö\_\-\s]+$/',
+                        'message' => 'Caratère(s) non valide(s)'
+                    ]),
+                ]
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'attr' => [
                     'placeholder' => 'Description',
                 ],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[A-Za-zéèàçâêûîôäëüïö\_\-\s]+$/',
+                        'message' => 'Caratère(s) non valide(s)'
+                    ]),
+                ]
             ])
             ->add('prix', MoneyType::class, [
                 'label' => 'Prix',
                 'attr' => [
                     'placeholder' => 'Prix',
                 ],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^\d+(,\d{1,2})?$/',
+                        'message' => 'Caratère(s) non valide(s)'
+                    ]),
+                ]
             ])
             ->add('picture', FileType::class,[
                 'label' => 'Image du produit',
