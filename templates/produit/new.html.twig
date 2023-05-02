@@ -1,2 +1,16 @@
+<<<<<<< HEAD
 {# templates/task/new.html.twig #}
 {{ form(form) }}
+=======
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn" type="submit">Enregistrer</button>
+    {{ form_end(form) }}
+<div>
+    
+{% endblock %}
+>>>>>>> 6c79a856d83b36798ecdb46a0800862c6f24f80c
